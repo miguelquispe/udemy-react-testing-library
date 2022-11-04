@@ -27,8 +27,8 @@ export const handlers = [
           imagePath: "/images/hot-fudge.png",
         },
         {
-          name: "Peanut butter cups",
-          imagePath: "/images/peanut-butter-cups.png",
+          name: "Cherries",
+          imagePath: "/images/cherries.png",
         },
       ])
     );
