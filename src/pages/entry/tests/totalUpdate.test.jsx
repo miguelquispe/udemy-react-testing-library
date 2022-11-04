@@ -1,5 +1,6 @@
 import { render, screen } from "../../../test-utils/testing-library-utils";
 import userEvent from "@testing-library/user-event";
+import { OrderDetailsProvider } from "../../../contexts/OrderDetails";
 import Options from "../Options";
 
 test("update scoop subtotal when scoops change", async () => {
@@ -24,4 +25,31 @@ test("update scoop subtotal when scoops change", async () => {
   await userEvent.clear(chocolateInput);
   await userEvent.type(chocolateInput, "2");
   expect(scoopsSubtotal).toHaveTextContent("6.00");
+});
+
+test("update topping subtotal when toppings change", async () => {
+  const user = userEvent.setup();
+  render(<Options optionType="toppings" />);
+  const toppingsSubtotal = screen.getByText("Toppings total: $", {
+    exact: false,
+  });
+  expect(toppingsSubtotal).toHaveTextContent("0.00");
+
+  // add cherries to subtotal
+  const cherriesCheckbox = await screen.findByRole("checkbox", {
+    name: "Cherries",
+  });
+  await user.click(cherriesCheckbox);
+  expect(toppingsSubtotal).toHaveTextContent("1.50");
+
+  // add hot fudge to subtotal
+  const hotFudgeCheckbox = await screen.findByRole("checkbox", {
+    name: "Hot Fudge",
+  });
+  await user.click(hotFudgeCheckbox);
+  expect(toppingsSubtotal).toHaveTextContent("3.00");
+
+  // remove hot fudge and check subtotal
+  await user.click(hotFudgeCheckbox);
+  expect(toppingsSubtotal).toHaveTextContent("1.50");
 });
