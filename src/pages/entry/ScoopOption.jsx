@@ -22,7 +22,7 @@ export default function ScoopOptions({ name, imagePath }) {
     setIsValid(valueIsValid);
 
     // only update context if the value is valid
-    updateItemCount(name, parseInt(currentValue), "scoops");
+    if (valueIsValid) updateItemCount(name, parseInt(currentValue), "scoops");
   };
 
   return (
